@@ -1,9 +1,21 @@
 ################################################################################
-# Rasterized map of PFAS concentration in drinking water in the U.S.
-# 2013-2015 UCMR3 spatial data
+# Organization - WHO LAB
+# Project - K01 Aim 1: Surface level PFAS exposure map
+# Jordan Fischbach, Dr. Cindy Hu
 # Configuration file for setup and filepath specification
 ################################################################################
+#restore r environment
 renv::restore()
+################################################################################
+
 # Load libraries
-library(tidyverse)
+library(here)
 library(renv)
+
+library(tidyverse)
+library(data.table)
+
+
+
+
+
