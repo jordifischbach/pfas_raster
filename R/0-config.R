@@ -16,7 +16,7 @@ library(tidyverse)
 library(data.table)
 
 #global variables
-pfas <- c("PFBS","PFHpA","PFHxS","PFNA","PFOS","PFOA")
+pfas <- c("PFBS","PFHpA","PFHxS","PFNA","PFOA","PFOS")
 
 
 

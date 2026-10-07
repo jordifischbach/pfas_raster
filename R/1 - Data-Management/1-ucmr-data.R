@@ -48,12 +48,44 @@ pws_outlier <- pws_check %>%
 
 # n NAs 
 nas <- ucmr3 %>% 
+  group_by(Contaminant) %>% 
   count(is.na(AnalyticalResultValue))
 
 ################################################################################
-# Average values - 
+# Average values for each facility, then average for each PWS
 ################################################################################
+# Impute NA values as DL/sqrt 2 (Hu 2021 - Table 1)
+## Create table of MRL/√2 values for each PFAS
+DL <- tibble(
+  pfas = pfas,
+  mrl  = c(0.09, 0.01, 0.03, 0.02, 0.02, 0.04)
+) %>% 
+  mutate(
+    "mrlrt2" = mrl / sqrt(2))
 
+## Impute mrl/√2 for NAs
+ucmr3_imp <- ucmr3 %>%  
+  left_join(
+    DL, by = c("Contaminant"="pfas")) %>%
+  mutate(
+    na = is.na(AnalyticalResultValue),
+    AnalyticalResultValue = (if_else(
+      na, mrlrt2, AnalyticalResultValue))) %>% 
+  select(-MRL)
+## check if impute correct - n values near "mcl/√2" for each PFAS, compare to "nas"
+mclrt2 <- ucmr3_imp %>% 
+  count(
+    Contaminant, near(AnalyticalResultValue, mrlrt2))
+
+
+# Average values for each facility 
+ucmr3_imp <- ucmr3_imp %>% 
+  mutate( 
+    PWSID_FID = paste0(PWSID, "_", FacilityID)) %>% 
+  
+    
+  
+  
 
 
 ################################################################################
