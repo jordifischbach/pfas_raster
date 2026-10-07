@@ -9,10 +9,14 @@ source(here::here("R/0-config.R")) #??? why source config file at beginning of s
 # Import UCMR3 data and filter to only PFAS contaminants data 
 ################################################################################
 
-# Import UCMR3 data and filter for PFAS contaminants
+# Import UCMR data and filter for PFAS contaminants
 ucmr3 =  fread(file = here("data", "ucmr3", "UCMR3_All.txt")) %>% 
   filter(
     Contaminant %in% pfas)
+ucmr5 = fread(file = here("data", "ucmr5", "UCMR5_All.txt"))%>% 
+  filter(
+    Contaminant %in% pfas)
+
 
 ################################################################################
 # Investigate UCMR3 data
