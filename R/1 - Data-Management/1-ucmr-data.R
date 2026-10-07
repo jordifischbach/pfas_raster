@@ -1,7 +1,7 @@
 ################################################################################
 # Organization - WHO LAB
 # Project - K01 Aim 1: Surface level PFAS exposure map
-# Jordan Fischbach, Dr. Cindy Hu
+# Jordan Fischbach, Claude
 # This file imports UCMR3 and UCMR5 data and conducts manipulation, cleaning, and characterization
 ################################################################################
 source(here::here("R/0-config.R")) #??? why source config file at beginning of scripts???
@@ -12,8 +12,7 @@ source(here::here("R/0-config.R")) #??? why source config file at beginning of s
 # Import UCMR3 data and filter for PFAS contaminants
 ucmr3 =  fread(file = here("data", "ucmr3", "UCMR3_All.txt")) %>% 
   filter(
-    Contaminant %in% pfas
-    )
+    Contaminant %in% pfas)
 
 ################################################################################
 # Investigate UCMR3 data
@@ -35,7 +34,7 @@ pws_check <- ucmr3 %>%
   count(
     PWSID_FID,
     name = "n_pfas_sampled_in_3_yrs"
-  )
+    )
 
 # Check distribution of unique yearly readings
 hist(pws_check$n_pfas_sampled_in_3_yrs)
