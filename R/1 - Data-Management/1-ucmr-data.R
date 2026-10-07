@@ -2,7 +2,7 @@
 # Organization - WHO LAB
 # Project - K01 Aim 1: Surface level PFAS exposure map
 # Jordan Fischbach, Dr. Cindy Hu
-# 2013-2015 UCMR3 and UCMR5 PFAS data management file for import, cleaning, and charactarization
+# 2013-2015 UCMR3 and UCMR5 PFAS data management file for import, cleaning, and characterization
 ################################################################################
 
 ################################################################################
