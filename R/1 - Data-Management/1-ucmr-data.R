@@ -83,25 +83,16 @@ mclrt2 <- ucmr3_imp %>%
 
 # Average values for each facility 
 ucmr3_imp <- ucmr3_imp %>% 
-  mutate( 
-    PWSID_FID = paste0(PWSID, "_", FacilityID)) %>% 
   
-    
+
   
   
 
 
 ################################################################################
-# Add zip codes
+# Join PWS Map 
 ################################################################################
-# Join ZIP codes by 
-ucmr3_zip = fread(file = here("data", "ucmr3", "UCMR3_ZIPCodes.txt"))
 
-# WRONG - multiple ZIP for each PWS
-ucmr3 = ucmr3 %>% 
-  left_join(
-    ucmr3,
-    ucmr3_zip,
-    by = "PWSID"
-    )
+
+
 
