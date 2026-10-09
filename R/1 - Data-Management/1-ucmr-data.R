@@ -5,30 +5,17 @@
 # This file imports UCMR3 and UCMR5 data and conducts manipulation, cleaning, and characterization
 ################################################################################
 source(here::here("R/0-config.R")) #??? why source config file at beginning of scripts???
-################################################################################
-# Import UCMR3 data and filter to only PFAS contaminants data 
-################################################################################
-
-# Import UCMR data and filter for PFAS contaminants
-ucmr3 =  fread(file = here("data", "ucmr3", "UCMR3_All.txt")) %>% 
-  filter(
-    Contaminant %in% pfas)
-ucmr5 = fread(file = here("data", "ucmr5", "UCMR5_All.txt"))%>% 
-  filter(
-    Contaminant %in% pfas)
-
 
 ################################################################################
-# Investigate UCMR3 data
+# Investigate UCMR data 
 ################################################################################
-# Does each PWS facility have a reading each year for each PFAS? 
-  # Filter by individual PWS facility for unique readings of PFAS per year
-pws_check <- ucmr3 %>%
+# Does each PWS facility have a reading each year for each PFAS? A: No.
+## Filter by individual PWS facility for unique readings of PFAS per year
+### UCMR3
+check3 <- ucmr3 %>%
   mutate(
-    year = as.numeric(
-      substr(
-        CollectionDate, nchar(CollectionDate) - 3, nchar(CollectionDate)
-      ))) %>%
+    year = year(mdy(CollectionDate))
+      ) %>%
   mutate(
     PWSID_FID = paste0(PWSID, "_", FacilityID)
   ) %>%
@@ -37,20 +24,50 @@ pws_check <- ucmr3 %>%
   ) %>%
   count(
     PWSID_FID,
-    name = "n_pfas_sampled_in_3_yrs"
+    name = "ucmr3_n_pfas_sampled_in_3_yrs"
     )
 
-# Check distribution of unique yearly readings
-hist(pws_check$n_pfas_sampled_in_3_yrs)
+#### Check distribution of unique yearly readings
+hist(check3$n_pfas_sampled_in_3_yrs)
 
-# Check n facilities with more than 2 unique years of data
-pws_outlier <- pws_check %>% 
+#### Check n facilities with more than 2 unique years of data
+outlier3 <- check3 %>% 
   filter(
-    !(n_pfas_sampled_in_3_yrs %in% c(6, 12))
+    !(ucmr3_n_pfas_sampled_in_3_yrs %in% c(6, 12))
   )
 
-# n NAs 
+#### n NAs 
 nas <- ucmr3 %>% 
+  group_by(Contaminant) %>% 
+  count(is.na(AnalyticalResultValue))
+
+### UCMR5
+check5 <- ucmr5 %>%
+  mutate(
+    year = year(mdy(CollectionDate))
+  ) %>%
+  mutate(
+    PWSID_FID = paste0(PWSID, "_", FacilityID)
+  ) %>%
+  distinct(
+    PWSID_FID, Contaminant, year
+  ) %>%
+  count(
+    PWSID_FID,
+    name = "ucmr5_n_pfas_sampled_in_3_yrs"
+  )
+
+#### Check distribution of unique yearly readings
+hist(check5$ucmr5_n_pfas_sampled_in_3_yrs)
+
+#### Check n facilities with more than 2 unique years of data
+outlier5 <- check5 %>% 
+  filter(
+    !(ucmr5_n_pfas_sampled_in_3_yrs %in% c(29, 58))
+  )
+
+#### n NAs 
+nas <- ucmr5 %>% 
   group_by(Contaminant) %>% 
   count(is.na(AnalyticalResultValue))
 
@@ -89,9 +106,7 @@ ucmr3_imp <- ucmr3_imp %>%
   
 
 
-################################################################################
-# Join PWS Map 
-################################################################################
+
 
 
 
