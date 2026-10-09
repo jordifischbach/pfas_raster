@@ -19,6 +19,8 @@ library(lubridate)
 library(sf)
 library(terra)
 
+library(ggplot2)
+
 # Global variables
 ## PFAS included in UCMR3 and UCMR5 respectively 
 pfas3 <- c("PFBS","PFHpA","PFHxS","PFNA","PFOA","PFOS")
@@ -40,7 +42,7 @@ ucmr3 <-  fread(file = here("data", "raw", "ucmr3", "UCMR3_All.txt")) %>%
   filter(
     Contaminant %in% pfas3)
 
-fwrite(ucmr3, here("data", "intermediate", "ucmr3_pfas"))
+##fwrite(ucmr3, here("data", "intermediate", "ucmr3_pfas"))
 
 ## UCMR5 data downloaded from https://www.epa.gov/dwucmr/occurrence-data-unregulated-contaminant-monitoring-rule
 ## !!! add version uploaded !!!
@@ -49,7 +51,7 @@ ucmr5 <- fread(file = here("data", "raw", "ucmr5", "UCMR5_All.txt"))%>%
   filter(
     Contaminant %in% pfas5)
 
-fwrite(ucmr5, here("data", "intermediate", "ucmr5_pfas"))
+##fwrite(ucmr5, here("data", "intermediate", "ucmr5_pfas"))
 
 ################################################################################
 # Import EPA PWIS Map
